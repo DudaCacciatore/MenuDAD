@@ -89,6 +89,9 @@ window.addEventListener("DOMContentLoaded", function () {
             <p class="item-text">
               ${item.desc}
             </p>
+             <button class="btn" onClick=
+                  Comprar
+             </button>
           </div>
         </article>`;
   });
