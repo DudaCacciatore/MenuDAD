@@ -75,10 +75,35 @@ const menu = [
 
 const sectionCenter = document.querySelector(".section-center");
 
-window.addEventListener("DOMContentLoaded", function () {
-  let displayMenu = menu.map(function (item) {
-    // console.log(item);
+function createPopup() {
+  const popup = document.createElement("div");
+  popup.id = "popup";
+  popup.className = "popup";
+  popup.style.display = "none"; 
+  popup.innerHTML = `
+    <div class="popup-content">
+      <span class="close">&times;</span>
+      <img id="popup-img" src="" alt="">
+      <h4 id="popup-title"></h4>
+      <p id="popup-desc"></p>
+      <h4 id="popup-price"></h4>
+      <button class="btn-comprar">Comprar</button>
+    </div>
+  `;
+  document.body.appendChild(popup);
 
+  // Fecha o popup
+  popup.querySelector(".close").addEventListener("click", () => {
+    popup.style.display = "none";
+  });
+
+  return popup;
+}
+
+const popup = createPopup();
+
+window.addEventListener("DOMContentLoaded", function () {
+  let displayMenu = menu.map(function (item, index) {
     return `<article class="menu-item">
           <img src=${item.img} alt=${item.title} class="photo" />
           <div class="item-info">
@@ -89,14 +114,34 @@ window.addEventListener("DOMContentLoaded", function () {
             <p class="item-text">
               ${item.desc}
             </p>
-             <button class="btn" onClick=
-                  Comprar
-             </button>
+             <button class="btn" data-index="${index}">Comprar</button>
           </div>
         </article>`;
-  });
-  displayMenu = displayMenu.join("");
-  console.log(displayMenu);
+  }).join("");
 
   sectionCenter.innerHTML = displayMenu;
+
+  const buttons = sectionCenter.querySelectorAll(".btn"); 
+  buttons.forEach(btn => {
+    btn.addEventListener("click", function() {
+      const index = this.dataset.index;
+      buyProduct(index);
+    });
+  });
 });
+
+function buyProduct(index){
+  const item = menu[index]; 
+  document.getElementById("popup-img").src = item.img;
+  document.getElementById("popup-img").alt = item.title;
+  document.getElementById("popup-title").textContent = item.title;
+  document.getElementById("popup-desc").textContent = item.desc;
+  document.getElementById("popup-price").textContent = `$${item.price}`;
+  document.querySelector(".btn-comprar").onclick = function() {
+    alert(`Compra realizada com sucesso!`);
+    popup.style.display = "none"; 
+  };
+  popup.style.display = "flex";
+}
+
+
