@@ -1,0 +1,74 @@
+.popup {
+    display: none; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+  }
+  
+  .popup-content {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
+  
+  .popup img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .popup h4 {
+    margin: 10px 0;
+    font-weight: bold;
+  }
+  
+  .popup p {
+    margin-bottom: 15px;
+    color: #555;
+  }
+  
+  .popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    transition: 0.3s;
+  }
+  
+  .popup .close:hover {
+    color: #c59d5f;
+  }
+
+  .btn-comprar {
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--clr-black);
+    padding: 0.275rem 0.55rem;
+    letter-spacing: var(--spacing);
+    transition: var(--transition);
+    font-size: 0.775rem;
+    border: 2px solid var(--clr-black);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius);
+  }
+  .btn-comprar:hover {
+    color: var(--clr-white);
+    background: var(--clr-black);
+  }
+  
