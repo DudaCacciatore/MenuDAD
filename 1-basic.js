@@ -76,32 +76,54 @@ const menu = [
 const buttonFilter = document.querySelectorAll(".filter-btn");
 const sectionCenter = document.querySelector(".section-center");
 
-window.addEventListener("DOMContentLoaded", function () {
-  let displayMenu = menu.map(function (item) {
-    // console.log(item);
+function createPopup() {
+  // Cria o elemento popup com a estrutura HTML desejada 
+  const popup = document.createElement("div");
+  popup.id = "popup";
+  popup.className = "popup";
+  popup.style.display = "none"; 
+  popup.innerHTML = `
+    <div class="popup-content">
+      <span class="close">&times;</span>
+      <img id="popup-img" src="" alt="">
+      <h4 id="popup-title"></h4>
+      <p id="popup-desc"></p>
+      <h4 id="popup-price"></h4>
+      <button class="btn-comprar">Comprar</button>
 
-    return `<article class="menu-item">
-          <img src=${item.img} alt=${item.title} class="photo" />
-          <div class="item-info">
-            <header>
-              <h4>${item.title}</h4>
-              <h4 class="price">$${item.price}</h4>
-            </header>
-            <p class="item-text">
-              ${item.desc}
-            </p>
-             <button class="btn" onClick=
-                  Comprar
-             </button>
-          </div>
-        </article>`;
+      <div id="mensagem-sucesso" style="display: none; padding: 20px; background-color: #4CAF50; color: white; text-align: center; border-radius: 5px; margin-top: 20px;">
+          Compra realizada com sucesso!
+      </div>
+    </div>
+  `;
+  document.body.appendChild(popup); // Adiciona o popup ao corpo do documento
+
+  // Fecha o popup
+  popup.querySelector(".close").addEventListener("click", () => {
+    popup.style.display = "none";
   });
-  displayMenu = displayMenu.join("");
-  console.log(displayMenu);
 
-  sectionCenter.innerHTML = displayMenu;
-});
+  return popup; 
+}
 
+const popup = createPopup(); // Chama a função e cria o popu
+
+// Função para exibir o popup com os detalhes do produto
+function buyProduct(index){
+  const item = menu[index]; 
+  document.getElementById("popup-img").src = item.img;
+  document.getElementById("popup-img").alt = item.title;
+  document.getElementById("popup-title").textContent = item.title;
+  document.getElementById("popup-desc").textContent = item.desc;
+  document.getElementById("popup-price").textContent = `$${item.price}`;
+  document.querySelector(".btn-comprar").onclick = function() {
+    popup.style.display = "none"; 
+    document.getElementById("mensagem-sucesso").style.display = "block";  
+  };
+}
+
+
+=======
 // Quando a página carregar, ele vai chamar a função displayMenuItems()
 window.addEventListener("DOMContentLoaded", function () {
   displayMenuItems(menu);
@@ -151,10 +173,12 @@ function displayMenuItems(menuItems) {
   sectionCenter.innerHTML = displayMenu;
 
   // a constante que registra o botão de compra
-  const comprarBtns = document.querySelectorAll(".comprar-btn");
-  comprarBtns.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      alert("Você comprou: " + btn.dataset.title);
+   // Adiciona evento de clique a todos os botões "Comprar"
+  const buttons = sectionCenter.querySelectorAll(".btn"); 
+  buttons.forEach(btn => {
+    btn.addEventListener("click", function() {
+      const index = this.dataset.index;
+      buyProduct(index);
     });
   });
 }
