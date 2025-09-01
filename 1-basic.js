@@ -73,6 +73,7 @@ const menu = [
   },
 ];
 
+const buttonFilter = document.querySelectorAll(".filter-btn");
 const sectionCenter = document.querySelector(".section-center");
 
 function createPopup() {
@@ -105,38 +106,7 @@ function createPopup() {
   return popup; 
 }
 
-const popup = createPopup(); // Chama a função e cria o popup
-
-// Função principal para exibir os itens do menu
-window.addEventListener("DOMContentLoaded", function () {
-  let displayMenu = menu.map(function (item, index) {
-    return `<article class="menu-item">
-          <img src=${item.img} alt=${item.title} class="photo" />
-          <div class="item-info">
-            <header>
-              <h4>${item.title}</h4>
-              <h4 class="price">$${item.price}</h4>
-            </header>
-            <p class="item-text">
-              ${item.desc}
-            </p>
-             <button class="btn" data-index="${index}">Comprar</button>
-          </div>
-        </article>`;
-  }).join("");
-
-  // Insere os itens do menu no container
-  sectionCenter.innerHTML = displayMenu;
-
-  // Adiciona evento de clique a todos os botões "Comprar"
-  const buttons = sectionCenter.querySelectorAll(".btn"); 
-  buttons.forEach(btn => {
-    btn.addEventListener("click", function() {
-      const index = this.dataset.index;
-      buyProduct(index);
-    });
-  });
-});
+const popup = createPopup(); // Chama a função e cria o popu
 
 // Função para exibir o popup com os detalhes do produto
 function buyProduct(index){
@@ -153,3 +123,62 @@ function buyProduct(index){
 }
 
 
+=======
+// Quando a página carregar, ele vai chamar a função displayMenuItems()
+window.addEventListener("DOMContentLoaded", function () {
+  displayMenuItems(menu);
+});
+
+// lista todos os botões do querySelectorAll() pegando o clique de cada um
+buttonFilter.forEach(function (btn) {
+  btn.addEventListener("click", function (e) {
+    const filtro = e.currentTarget.dataset.id;
+
+    buttonFilter.forEach(b => b.classList.remove("active"));
+
+    e.currentTarget.classList.add("active");
+
+    if (filtro === "all") {
+      displayMenuItems(menu);
+    } else {
+      const menuFiltrado = menu.filter(function (item) {
+        return item.category === filtro;
+      });
+      displayMenuItems(menuFiltrado);
+    }
+  });
+});
+
+// A função displayMenuItems que lista os items do menu
+function displayMenuItems(menuItems) {
+  // lista todos os itens do json de itens e insere no html
+  let displayMenu = menuItems.map(function (item) {
+    return `<article class="menu-item">
+          <img src=${item.img} alt=${item.title} class="photo" />
+          <div class="item-info">
+            <header>
+              <h4>${item.title}</h4>
+              <h4 class="price">$${item.price}</h4>
+            </header>
+            <p class="item-text">
+              ${item.desc}
+            </p>
+            <button class="btn comprar-btn" data-title="${item.title}">
+              Comprar
+            </button>
+          </div>
+        </article>`;
+  });
+  displayMenu = displayMenu.join("");
+  sectionCenter.innerHTML = displayMenu;
+
+  // a constante que registra o botão de compra
+   // Adiciona evento de clique a todos os botões "Comprar"
+  const buttons = sectionCenter.querySelectorAll(".btn"); 
+  buttons.forEach(btn => {
+    btn.addEventListener("click", function() {
+      const index = this.dataset.index;
+      buyProduct(index);
+    });
+  });
+}

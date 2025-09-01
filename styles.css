@@ -242,6 +242,12 @@ Menu
   margin-top: 10px;
 }
 
+.filter-btn:active::after {
+  background: var(--clr-gold);
+  color: var(--clr-white);
+}
+
+
 @media screen and (min-width: 768px) {
   .menu-item {
     grid-template-columns: 225px 1fr;
