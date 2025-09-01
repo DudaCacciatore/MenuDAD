@@ -73,6 +73,7 @@ const menu = [
   },
 ];
 
+const buttonFilter = document.querySelectorAll(".filter-btn");
 const sectionCenter = document.querySelector(".section-center");
 
 window.addEventListener("DOMContentLoaded", function () {
@@ -101,47 +102,59 @@ window.addEventListener("DOMContentLoaded", function () {
   sectionCenter.innerHTML = displayMenu;
 });
 
+// Quando a página carregar, ele vai chamar a função displayMenuItems()
+window.addEventListener("DOMContentLoaded", function () {
+  displayMenuItems(menu);
+});
 
-function filtrarProdutos(filtro) {
-  let displayMenu = menu.map(function (item) {
-    if (filtro == "") {
-      return `<article class="menu-item">
-          <img src=${item.img} alt=${item.title} class="photo" />
-          <div class="item-info">
-            <header>
-              <h4>${item.title}</h4>
-              <h4 class="price">$${item.price}</h4>
-            </header>
-            <p class="item-text">
-              ${item.desc}
-            </p>
-             <button class="btn" onClick=
-                  Comprar
-             </button>
-          </div>
-        </article>`;
-    }else {
-      if (item.category == filtro) {
-        return `<article class="menu-item">
-          <img src=${item.img} alt=${item.title} class="photo" />
-          <div class="item-info">
-            <header>
-              <h4>${item.title}</h4>
-              <h4 class="price">$${item.price}</h4>
-            </header>
-            <p class="item-text">
-              ${item.desc}
-            </p>
-             <button class="btn" onClick=
-                  Comprar
-             </button>
-          </div>
-        </article>`;
+// lista todos os botões do querySelectorAll() pegando o clique de cada um
+buttonFilter.forEach(function (btn) {
+  btn.addEventListener("click", function (e) {
+    const filtro = e.currentTarget.dataset.id;
+
+    buttonFilter.forEach(b => b.classList.remove("active"));
+
+    e.currentTarget.classList.add("active");
+
+    if (filtro === "all") {
+      displayMenuItems(menu);
     } else {
-      null;
+      const menuFiltrado = menu.filter(function (item) {
+        return item.category === filtro;
+      });
+      displayMenuItems(menuFiltrado);
     }
-    }
+  });
+});
+
+// A função displayMenuItems que lista os items do menu
+function displayMenuItems(menuItems) {
+  // lista todos os itens do json de itens e insere no html
+  let displayMenu = menuItems.map(function (item) {
+    return `<article class="menu-item">
+          <img src=${item.img} alt=${item.title} class="photo" />
+          <div class="item-info">
+            <header>
+              <h4>${item.title}</h4>
+              <h4 class="price">$${item.price}</h4>
+            </header>
+            <p class="item-text">
+              ${item.desc}
+            </p>
+            <button class="btn comprar-btn" data-title="${item.title}">
+              Comprar
+            </button>
+          </div>
+        </article>`;
   });
   displayMenu = displayMenu.join("");
   sectionCenter.innerHTML = displayMenu;
+
+  // a constante que registra o botão de compra
+  const comprarBtns = document.querySelectorAll(".comprar-btn");
+  comprarBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      alert("Você comprou: " + btn.dataset.title);
+    });
+  });
 }
