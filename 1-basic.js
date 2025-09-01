@@ -76,6 +76,7 @@ const menu = [
 const sectionCenter = document.querySelector(".section-center");
 
 function createPopup() {
+  // Cria o elemento popup com a estrutura HTML desejada 
   const popup = document.createElement("div");
   popup.id = "popup";
   popup.className = "popup";
@@ -88,20 +89,25 @@ function createPopup() {
       <p id="popup-desc"></p>
       <h4 id="popup-price"></h4>
       <button class="btn-comprar">Comprar</button>
+
+      <div id="mensagem-sucesso" style="display: none; padding: 20px; background-color: #4CAF50; color: white; text-align: center; border-radius: 5px; margin-top: 20px;">
+          Compra realizada com sucesso!
+      </div>
     </div>
   `;
-  document.body.appendChild(popup);
+  document.body.appendChild(popup); // Adiciona o popup ao corpo do documento
 
   // Fecha o popup
   popup.querySelector(".close").addEventListener("click", () => {
     popup.style.display = "none";
   });
 
-  return popup;
+  return popup; 
 }
 
-const popup = createPopup();
+const popup = createPopup(); // Chama a função e cria o popup
 
+// Função principal para exibir os itens do menu
 window.addEventListener("DOMContentLoaded", function () {
   let displayMenu = menu.map(function (item, index) {
     return `<article class="menu-item">
@@ -119,8 +125,10 @@ window.addEventListener("DOMContentLoaded", function () {
         </article>`;
   }).join("");
 
+  // Insere os itens do menu no container
   sectionCenter.innerHTML = displayMenu;
 
+  // Adiciona evento de clique a todos os botões "Comprar"
   const buttons = sectionCenter.querySelectorAll(".btn"); 
   buttons.forEach(btn => {
     btn.addEventListener("click", function() {
@@ -130,6 +138,7 @@ window.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Função para exibir o popup com os detalhes do produto
 function buyProduct(index){
   const item = menu[index]; 
   document.getElementById("popup-img").src = item.img;
@@ -138,10 +147,9 @@ function buyProduct(index){
   document.getElementById("popup-desc").textContent = item.desc;
   document.getElementById("popup-price").textContent = `$${item.price}`;
   document.querySelector(".btn-comprar").onclick = function() {
-    alert(`Compra realizada com sucesso!`);
     popup.style.display = "none"; 
+    document.getElementById("mensagem-sucesso").style.display = "block";  
   };
-  popup.style.display = "flex";
 }
 
 
