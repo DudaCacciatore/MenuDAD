@@ -108,28 +108,12 @@ function createPopup() {
 
 const popup = createPopup(); // Chama a função e cria o popu
 
-// Função para exibir o popup com os detalhes do produto
-function buyProduct(index){
-  const item = menu[index]; 
-  document.getElementById("popup-img").src = item.img;
-  document.getElementById("popup-img").alt = item.title;
-  document.getElementById("popup-title").textContent = item.title;
-  document.getElementById("popup-desc").textContent = item.desc;
-  document.getElementById("popup-price").textContent = `$${item.price}`;
-  document.querySelector(".btn-comprar").onclick = function() {
-    popup.style.display = "none"; 
-    document.getElementById("mensagem-sucesso").style.display = "block";  
-  };
-}
-
-
-=======
 // Quando a página carregar, ele vai chamar a função displayMenuItems()
 window.addEventListener("DOMContentLoaded", function () {
   displayMenuItems(menu);
 });
 
-// lista todos os botões do querySelectorAll() pegando o clique de cada um
+// Lista todos os botões do querySelectorAll() pegando o clique de cada um
 buttonFilter.forEach(function (btn) {
   btn.addEventListener("click", function (e) {
     const filtro = e.currentTarget.dataset.id;
@@ -151,8 +135,7 @@ buttonFilter.forEach(function (btn) {
 
 // A função displayMenuItems que lista os items do menu
 function displayMenuItems(menuItems) {
-  // lista todos os itens do json de itens e insere no html
-  let displayMenu = menuItems.map(function (item) {
+  let displayMenu = menuItems.map(function (item, index) {
     return `<article class="menu-item">
           <img src=${item.img} alt=${item.title} class="photo" />
           <div class="item-info">
@@ -163,17 +146,13 @@ function displayMenuItems(menuItems) {
             <p class="item-text">
               ${item.desc}
             </p>
-            <button class="btn comprar-btn" data-title="${item.title}">
-              Comprar
-            </button>
+            <button class="btn" data-index="${index}">Comprar</button>
           </div>
         </article>`;
-  });
-  displayMenu = displayMenu.join("");
+  }).join("");
   sectionCenter.innerHTML = displayMenu;
 
-  // a constante que registra o botão de compra
-   // Adiciona evento de clique a todos os botões "Comprar"
+  // Adiciona evento de clique a todos os botões "Comprar"
   const buttons = sectionCenter.querySelectorAll(".btn"); 
   buttons.forEach(btn => {
     btn.addEventListener("click", function() {
@@ -181,4 +160,19 @@ function displayMenuItems(menuItems) {
       buyProduct(index);
     });
   });
+}
+
+// Função para exibir o popup com os detalhes do produto
+function buyProduct(index){
+  const item = menu[index]; 
+  document.getElementById("popup-img").src = item.img;
+  document.getElementById("popup-img").alt = item.title;
+  document.getElementById("popup-title").textContent = item.title;
+  document.getElementById("popup-desc").textContent = item.desc;
+  document.getElementById("popup-price").textContent = `$${item.price}`;
+  document.querySelector(".btn-comprar").onclick = function() {
+    alert(`Compra realizada com sucesso!`);
+    popup.style.display = "none"; 
+  };
+  popup.style.display = "flex";
 }
